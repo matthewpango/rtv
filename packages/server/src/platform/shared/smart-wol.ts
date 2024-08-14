@@ -1,6 +1,6 @@
-import wol from 'wakeonlan';
 import { getKnownTvs } from '../../api/tv/service';
-
+import { execSync } from 'child_process';
+ 
 export const wakeUpTv = async (ip: string, port?: number) => {
   const tvs = getKnownTvs();
   const tvConfig = tvs.find((tv) => tv.ip === ip);
@@ -11,6 +11,9 @@ export const wakeUpTv = async (ip: string, port?: number) => {
   if (!mac) {
     throw new Error(`MAC address is not specified for tv ${ip}`);
   }
-
-  return wol(mac, { port });
+  if (port !== undefined) {
+    return execSync(`wakeonlan -i ${ip} -p ${port} ${mac}`);
+  } else {
+    return execSync(`wakeonlan -i ${ip} ${mac}`);
+  }
 };

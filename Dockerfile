@@ -1,4 +1,4 @@
-FROM vitalets/tizen-webos-sdk:2.0
+FROM vitalets/tizen-webos-sdk:3.0
 
 WORKDIR /app
 
@@ -8,7 +8,8 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
       nodejs \
-      iputils-ping
+      iputils-ping \
+      wakeonlan
 
 # prevent /tmp/sdb.log grow
 RUN ln -fs /dev/null /tmp/sdb.log
